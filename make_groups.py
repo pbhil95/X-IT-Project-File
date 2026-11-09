@@ -96,10 +96,30 @@ if LINK:
 story += [
     Spacer(1, 2 * mm),
     Paragraph(f"Total IT students: <b>{len(students)}</b> &nbsp;|&nbsp; "
-              f"Total groups: <b>{len(groups)}</b> &nbsp;|&nbsp; "
-              "Each group prints <b>one</b> copy of the project file.", sub),
-    Spacer(1, 5 * mm),
+              f"Total groups: <b>{len(groups)}</b>", sub),
+    Spacer(1, 3 * mm),
 ]
+
+# ---- printing instructions -----------------------------------------------
+note = ParagraphStyle("n", parent=cell, fontSize=10.5, leading=15)
+steps = [
+    "Each group prints <b>one</b> copy of the project file and shares it.",
+    '<font color="#C00000"><b>The front page (cover page) must be printed in '
+    'COLOUR.</b></font> All other pages can be printed in black &amp; white.',
+    "Fill in Name, CBSE Roll No. and Section on the front page and the "
+    "certificate.",
+]
+rows = [[Paragraph("<b>Printing Instructions</b>", head)]]
+rows += [[Paragraph(f"{i}. {t}", note)] for i, t in enumerate(steps, 1)]
+ins = Table(rows, colWidths=[177 * mm])
+ins.setStyle(TableStyle([
+    ("BACKGROUND", (0, 0), (-1, 0), colors.HexColor("#C55A11")),
+    ("BACKGROUND", (0, 1), (-1, -1), colors.HexColor("#FFF4E5")),
+    ("BOX", (0, 0), (-1, -1), 0.8, colors.HexColor("#C55A11")),
+    ("TOPPADDING", (0, 0), (-1, -1), 3),
+    ("BOTTOMPADDING", (0, 0), (-1, -1), 3),
+]))
+story += [ins, Spacer(1, 5 * mm)]
 
 BLUE, PINK = colors.HexColor("#2E75B6"), colors.HexColor("#C0507A")
 for section in sorted({g[1] for g in groups}):
@@ -110,12 +130,12 @@ for section in sorted({g[1] for g in groups}):
         colour = BLUE if gender == "Boys" else PINK
         n = sum(len(g[3]) for g in sel)
         data = [[Paragraph(f"Section {section} - {gender} ({n} students)", head),
-                 "", ""],
-                ["Group", "Students", "Printed by"]]
+                 ""],
+                ["Group", "Students"]]
         for no, _, _, names in sel:
             members = "<br/>".join(f"{k}. {nm}" for k, nm in enumerate(names, 1))
-            data.append([f"G-{no:02d}", Paragraph(members, cell), ""])
-        t = Table(data, colWidths=[22 * mm, 110 * mm, 45 * mm])
+            data.append([f"G-{no:02d}", Paragraph(members, cell)])
+        t = Table(data, colWidths=[25 * mm, 152 * mm])
         t.setStyle(TableStyle([
             ("SPAN", (0, 0), (-1, 0)),
             ("BACKGROUND", (0, 0), (-1, 0), colour),
