@@ -73,12 +73,12 @@ link_style = ParagraphStyle("l", parent=sub, fontSize=11.5)
 story = [
     Paragraph("PM SHRI JNV TARIKHET, ALMORA", title),
     Paragraph("<b>Class X - Information Technology (402) - Session 2026-27</b>", sub),
-    Paragraph("Project / Practical File Printing Groups", sub),
+    Paragraph("Project File Printing Groups", sub),
     Spacer(1, 3 * mm),
 ]
 if LINK:
     text = [
-        Paragraph("<b>IT Practical File (PDF)</b>", link_style),
+        Paragraph("<b>IT Project File: Library Management System (PDF)</b>", link_style),
         Spacer(1, 2 * mm),
         Paragraph(f'<link href="{LINK}" color="blue"><u>Click here to open / '
                   'download the project file</u></link>', link_style),
@@ -106,8 +106,8 @@ steps = [
     "Each group prints <b>one</b> copy of the project file and shares it.",
     '<font color="#C00000"><b>The front page (cover page) must be printed in '
     'COLOUR.</b></font> All other pages can be printed in black &amp; white.',
-    "Fill in Name, CBSE Roll No. and Section on the front page and the "
-    "certificate.",
+    "Write the names and CBSE Roll Nos. of <b>all group members</b> and the "
+    "Section on the front page, acknowledgement and certificate.",
 ]
 rows = [[Paragraph("<b>Printing Instructions</b>", head)]]
 rows += [[Paragraph(f"{i}. {t}", note)] for i, t in enumerate(steps, 1)]
