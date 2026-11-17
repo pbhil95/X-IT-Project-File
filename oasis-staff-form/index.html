@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>OASIS Staff Details Form</title>
+<meta name="description" content="Teacher data collection form matching the CBSE OASIS Staff Details page.">
+<meta name="robots" content="noindex">
+<style>
+:root{
+  --bg:#f3f5fb; --card:#ffffff; --ink:#172033; --muted:#5d6880; --line:#dfe4ef;
+  --brand:#2b3a8c; --brand2:#5b6ee1; --accent:#f08a24; --ok:#12805c; --bad:#c62f3f;
+  --field:#f8f9fd; --shadow:0 10px 30px rgba(28,39,89,.08);
+}
+@media (prefers-color-scheme:dark){
+  :root{--bg:#0e1322;--card:#171e33;--ink:#e9edf8;--muted:#9aa6c2;--line:#2a3352;
+    --brand:#8fa0ff;--brand2:#5b6ee1;--field:#111829;--shadow:0 10px 30px rgba(0,0,0,.35);--bad:#ff7d8a;--ok:#4fd1a5}
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font:16px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,"Noto Sans",sans-serif;background:var(--bg);color:var(--ink)}
+header.hero{background:linear-gradient(135deg,#1f2a6b 0%,#3d4fc4 55%,#6a7cf0 100%);color:#fff;padding:34px 20px 74px;position:relative;overflow:hidden}
+header.hero::after{content:"";position:absolute;right:-80px;top:-80px;width:280px;height:280px;border-radius:50%;background:rgba(255,255,255,.08)}
+header.hero::before{content:"";position:absolute;left:-60px;bottom:-120px;width:240px;height:240px;border-radius:50%;background:rgba(240,138,36,.22)}
+.wrap{max-width:980px;margin:0 auto;position:relative;z-index:1}
+.badge{display:inline-block;background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.28);padding:4px 12px;border-radius:999px;font-size:12.5px;letter-spacing:.08em;text-transform:uppercase}
+h1{margin:12px 0 6px;font-size:clamp(26px,5vw,38px);line-height:1.15;letter-spacing:-.01em}
+.hero p{margin:0;max-width:640px;opacity:.92}
+main{max-width:980px;margin:-48px auto 60px;padding:0 14px;position:relative;z-index:2}
+.progress{position:sticky;top:0;z-index:5;background:var(--card);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);padding:10px 14px;margin-bottom:16px;display:flex;align-items:center;gap:12px}
+.bar{flex:1;height:8px;background:var(--line);border-radius:99px;overflow:hidden}
+.bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--brand2),var(--accent));border-radius:99px;transition:width .3s}
+.progress span{font-size:13px;color:var(--muted);white-space:nowrap;font-variant-numeric:tabular-nums}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;box-shadow:var(--shadow);padding:22px;margin-bottom:18px}
+.card h2{margin:0 0 4px;font-size:19px;display:flex;align-items:center;gap:10px}
+.card h2 b{display:grid;place-items:center;width:30px;height:30px;border-radius:10px;background:linear-gradient(135deg,var(--brand2),#3d4fc4);color:#fff;font-size:14px}
+.card .note{margin:0 0 14px;color:var(--muted);font-size:14px}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px 18px;margin-top:14px}
+.f{display:flex;flex-direction:column;min-width:0}
+.f.wide{grid-column:1/-1}
+label.l,.f legend{font-size:12.5px;font-weight:650;letter-spacing:.03em;text-transform:uppercase;color:var(--muted);margin-bottom:6px;padding:0}
+.req{color:var(--bad);margin-left:2px}
+input[type=text],input[type=tel],input[type=email],input[type=number],input[type=date],select{
+  width:100%;padding:11px 12px;border:1.5px solid var(--line);border-radius:11px;background:var(--field);color:var(--ink);font:inherit;min-height:46px;transition:border-color .15s,box-shadow .15s}
+input:focus,select:focus{outline:none;border-color:var(--brand2);box-shadow:0 0 0 4px rgba(91,110,225,.18)}
+.f.err input,.f.err select{border-color:var(--bad)}
+.hint{font-size:12.5px;color:var(--muted);margin-top:4px}
+.msg{font-size:12.5px;color:var(--bad);margin-top:4px;display:none}
+.f.err .msg{display:block}
+.row{display:flex;gap:8px}.row select{flex:0 0 96px}
+fieldset{border:0;margin:0;padding:0;min-width:0}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chips label{cursor:pointer}
+.chips input{position:absolute;opacity:0;pointer-events:none}
+.chips span{display:inline-block;padding:8px 13px;border:1.5px solid var(--line);border-radius:999px;background:var(--field);font-size:14px;user-select:none;transition:.15s}
+.chips input:checked+span{background:var(--brand2);border-color:var(--brand2);color:#fff}
+.chips input:focus-visible+span{box-shadow:0 0 0 4px rgba(91,110,225,.25)}
+.actions{display:flex;flex-wrap:wrap;gap:10px;justify-content:flex-end;align-items:center}
+button{font:inherit;font-weight:650;border-radius:12px;padding:13px 22px;border:1.5px solid var(--line);background:var(--card);color:var(--ink);cursor:pointer}
+button.primary{background:linear-gradient(135deg,#12805c,#19a877);border-color:transparent;color:#fff;box-shadow:0 8px 20px rgba(18,128,92,.28)}
+button:active{transform:translateY(1px)}
+.alert{display:none;border-radius:12px;padding:12px 14px;margin-bottom:14px;font-size:14.5px}
+.alert.show{display:block}
+.alert.bad{background:rgba(198,47,63,.1);border:1px solid rgba(198,47,63,.35);color:var(--bad)}
+.alert.ok{background:rgba(18,128,92,.1);border:1px solid rgba(18,128,92,.35);color:var(--ok)}
+.alert.info{background:rgba(91,110,225,.1);border:1px solid rgba(91,110,225,.35)}
+#summary{display:none}
+table.sum{width:100%;border-collapse:collapse;font-size:14.5px;margin-bottom:10px}
+table.sum th{text-align:left;background:var(--field);padding:9px 10px;font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--brand);border-bottom:2px solid var(--line)}
+table.sum td{padding:7px 10px;border-bottom:1px solid var(--line);vertical-align:top;word-break:break-word}
+table.sum td:first-child{width:46%;color:var(--muted)}
+footer{text-align:center;color:var(--muted);font-size:13px;padding:0 14px 40px}
+@media (max-width:640px){.grid{grid-template-columns:1fr}.card{padding:16px;border-radius:16px}.actions button{flex:1}}
+@media print{
+  header.hero,.progress,#form,.actions,footer,.alert{display:none!important}
+  body{background:#fff;color:#000}main{margin:0;max-width:none;padding:0}
+  .card{box-shadow:none;border:0;padding:0}#summary{display:block!important}
+  table.sum td,table.sum th{padding:4px 8px;font-size:12px}
+}
+</style>
+</head>
+<body>
+<header class="hero">
+  <div class="wrap">
+    <span class="badge">CBSE &middot; OASIS</span>
+    <h1>Staff Details Form</h1>
+    <p>Fill in your details exactly as in your official records. They will be entered in the OASIS portal. Fields marked <b>*</b> are compulsory.</p>
+  </div>
+</header>
+
+<main>
+  <div class="progress" id="progress"><div class="bar"><i id="barFill"></i></div><span id="barText">0 of 0 required</span></div>
+  <div class="alert bad" id="topAlert" role="alert"></div>
+  <form id="form" novalidate></form>
+
+  <section id="summary" class="card" aria-live="polite">
+    <h2><b>&#10003;</b> Your details</h2>
+    <p class="note" id="sumNote"></p>
+    <div class="alert" id="sendAlert"></div>
+    <div id="sumBody"></div>
+    <div class="actions">
+      <button type="button" id="editBtn">Edit details</button>
+      <button type="button" class="primary" id="printBtn">Print / Save as PDF</button>
+    </div>
+  </section>
+</main>
+<footer>This page stores nothing on its own. Your details leave this device only when you press Submit or share the PDF.</footer>
+
+<script>
+/* ------------------------------------------------------------------
+   OPTIONAL: paste your Google Apps Script web-app URL between the quotes
+   to collect every submission in a Google Sheet (see README.md).
+   Leave empty to use the form as "fill -> print / save PDF".
+------------------------------------------------------------------- */
+var SHEET_URL = "";
+
+var YN = ["YES", "NO"];
+var CLASSES = ["KG-NURSERY","CLASS I","CLASS II","CLASS III","CLASS IV","CLASS V","CLASS VI","CLASS VII","CLASS VIII","CLASS IX","CLASS X","CLASS XI","CLASS XII"];
+var SUB10 = ["002 HINDI COURSE-A","085 HINDI COURSE-B","184 ENGLISH LANG & LIT","122 SANSKRIT","119 SANSKRIT (COMMUNICATIVE)","041 MATHEMATICS STANDARD","241 MATHEMATICS BASIC","086 SCIENCE","087 SOCIAL SCIENCE","165 COMPUTER APPLICATIONS","402 INFORMATION TECHNOLOGY","417 ARTIFICIAL INTELLIGENCE","418 PHYSICAL ACTIVITY TRAINER","419 DATA SCIENCE","049 PAINTING","064 HOME SCIENCE","000 NA"];
+var SUB12 = ["301 ENGLISH CORE","302 HINDI CORE","322 SANSKRIT CORE","041 MATHEMATICS","241 APPLIED MATHEMATICS","042 PHYSICS","043 CHEMISTRY","044 BIOLOGY","083 COMPUTER SCIENCE","065 INFORMATICS PRACTICES","055 ACCOUNTANCY","054 BUSINESS STUDIES","030 ECONOMICS","027 HISTORY","028 POLITICAL SCIENCE","029 GEOGRAPHY","037 PSYCHOLOGY","039 SOCIOLOGY","048 PHYSICAL EDUCATION","049 PAINTING","052 APP/COMMERCIAL ART","064 HOME SCIENCE","802 INFORMATION TECHNOLOGY","843 ARTIFICIAL INTELLIGENCE","808 AGRICULTURE","000 NA"];
+var NUM = {type:"number", min:0, msg:"Enter a number (0 or more)."};
+function num(o){ var r={}; for(var k in NUM) r[k]=NUM[k]; for(var j in o) r[j]=o[j]; return r; }
+
+var SECTIONS = [
+ {title:"Teacher Information", fields:[
+  {k:"teacherCode", l:"Teacher Code", req:1},
+  {k:"teacherName", l:"Teacher Name", req:1, titleSel:1, upper:1},
+  {k:"mobile", l:"Mobile Number", req:1, type:"tel", pat:"[6-9][0-9]{9}", max:10, msg:"Enter a valid 10-digit mobile number."},
+  {k:"email", l:"Email ID", req:1, type:"email", msg:"Enter a valid email address."},
+  {k:"dob", l:"Date of Birth", req:1, type:"date"},
+  {k:"gender", l:"Gender", req:1, opts:["MALE","FEMALE","TRANSGENDER"]},
+  {k:"pan", l:"PAN No.", req:1, pat:"[A-Za-z]{5}[0-9]{4}[A-Za-z]", max:10, upper:1, hint:"Format: ABCDE1234F", msg:"PAN must look like ABCDE1234F."},
+  {k:"category", l:"Social Category", req:1, opts:["GEN","SC","ST","OBC"]},
+  {k:"designation", l:"Designation", req:1, opts:["PRINCIPAL","VICE-PRINCIPAL","HM","PGT","PET","PTI","TGT","PRT","NTT","SPECIAL EDUCATOR","WELLNESS TEACHER (SOCIO-EMOTIONAL COUNSELLOR)","OTHER"]},
+  {k:"teacherType", l:"Type of Teacher", req:1, hint:"As per the option in the OASIS portal."},
+  {k:"qualification", l:"Teacher Qualification", req:1, opts:["B.A./B.Ed.","B.Sc./B.Ed.","B.Com./B.Ed.","M.A./B.Ed.","M.Sc./B.Ed.","M.Com./B.Ed.","M.A./M.Ed.","M.Sc./M.Ed.","M.Com./M.Ed.","Others","MPEd/BPEd/CPEd"]},
+  {k:"appointment", l:"Nature of Appointment", req:1, opts:["REGULAR","CONTRACT","PART-TIME"]},
+  {k:"joinDate", l:"Date of Joining in Service", req:1, type:"date"},
+  {k:"highAcademic", l:"Highest Qualification (Academic)", req:1, hint:"e.g. M.Sc. Physics"},
+  {k:"brc", l:"Total days of in-service training in last academic year (BRC)", req:1, o:num({hint:"Enter 0 if none."})},
+  {k:"highProfessional", l:"Highest Qualification (Professional)", req:1, hint:"e.g. B.Ed."},
+  {k:"crc", l:"Total days of in-service training in last academic year (CRC)", req:1, o:num({hint:"Enter 0 if none."})},
+  {k:"appointedSubject", l:"Appointed for Subject", req:1},
+  {k:"diet", l:"Total days of in-service training in last academic year (DIET)", req:1, o:num({hint:"Enter 0 if none."})},
+  {k:"mainSubject", l:"Main Subject Taught", req:1},
+  {k:"nonTeachingDays", l:"No. of working days spent on non-teaching assignments", req:1, o:num({hint:"Enter 0 if none."})},
+  {k:"addSubject", l:"Additional Subject Taught", req:1, hint:"Write NA if none."},
+  {k:"mathsUpto", l:"Maths/Science studied upto", req:1, hint:"e.g. Class X / XII / Graduation"},
+  {k:"computerTrained", l:"Trained in use of computer / teaching through computer", req:1, opts:YN},
+  {k:"englishUpto", l:"English studied upto", req:1, hint:"e.g. Class X / XII / Graduation"},
+  {k:"disability", l:"Disability (if any)", req:1, opts:YN},
+  {k:"sstUpto", l:"Social Studies studied upto", req:1, hint:"e.g. Class X / XII / Graduation"},
+  {k:"bankName", l:"Bank Name", req:1},
+  {k:"schoolSince", l:"Working in present school since (year)", req:1, pat:"(19|20)[0-9]{2}", max:4, mode:"numeric", msg:"Enter a four-digit year, e.g. 2015."},
+  {k:"accountNo", l:"Account Number", pat:"[0-9]{6,18}", max:18, mode:"numeric", msg:"Digits only, 6 to 18 digits."},
+  {k:"cwsn", l:"Trained to teach CWSN", req:1, opts:YN, hint:"CWSN = Children With Special Needs"},
+  {k:"ifsc", l:"IFSC Code", pat:"[A-Za-z]{4}0[A-Za-z0-9]{6}", max:11, upper:1, hint:"11 characters, e.g. SBIN0001234", msg:"IFSC must look like SBIN0001234."},
+  {k:"ctet", l:"CTET/TET Qualified", req:1, opts:YN, wide:1},
+  {k:"evalMedium", l:"Evaluation Medium", checks:["ENGLISH","HINDI","URDU","PUNJABI","BENGALI"], hint:"Bengali medium only for Tripura State.", wide:1},
+  {k:"classes", l:"Select Classes Taught", checks:CLASSES, wide:1}
+ ]},
+ {title:"Secondary Education", note:"Fill only if you teach Class IX / X.", fields:[
+  {k:"sec1", l:"Subject-(1) (Currently Teaching)", dl:"sub10", hint:"Subject code and name"},
+  {k:"sec2", l:"Subject-(2)", dl:"sub10"},
+  {k:"secExp1", l:"Experience Subject-(1) (Currently Teaching)", o:num({hint:"In years."})},
+  {k:"secExp2", l:"Experience Subject-(2)", o:num({hint:"In years."})},
+  {k:"ward10", l:"Ward appearing in Class 10 Subject-1 above", opts:YN}
+ ]},
+ {title:"Senior Secondary Education", note:"Fill only if you teach Class XI / XII.", fields:[
+  {k:"sr1", l:"Subject-(1) (Currently Teaching)", dl:"sub12", hint:"Subject code and name"},
+  {k:"sr2", l:"Subject-(2)", dl:"sub12"},
+  {k:"srExp1", l:"Experience Subject-(1) (Currently Teaching)", o:num({hint:"In years."})},
+  {k:"srExp2", l:"Experience Subject-(2)", o:num({hint:"In years."})},
+  {k:"ward12", l:"Ward appearing in Class 12 Subject-1 above", opts:YN}
+ ]},
+ {title:"Personal Details", fields:[
+  {k:"fatherSpouse", l:"Father/Spouse Name", req:1, upper:1},
+  {k:"trained", l:"Trained or Untrained", req:1, opts:["Trained","UnTrained"]},
+  {k:"confirmDate", l:"Confirmation Date", type:"date"},
+  {k:"courseName", l:"Name of training course(s) attended"},
+  {k:"payScale", l:"Scale of Pay (Rs)", req:1, hint:"e.g. 44900-142400 (Level 7)"},
+  {k:"trainingDays", l:"Duration in days", req:1, o:num({hint:"Enter 0 if no training attended."})},
+  {k:"basicPay", l:"Basic Pay (Rs)", req:1, o:num({})},
+  {k:"organizedBy", l:"Training programme organized by", opts:["CBSE","Training Institute"]},
+  {k:"da", l:"DA/Other Allowance (Rs)", req:1, o:num({})}
+ ]}
+];
+
+/* ---------- build the form ---------- */
+var form = document.getElementById("form");
+function el(tag, attrs, html){ var e=document.createElement(tag); for(var a in attrs||{}) e.setAttribute(a, attrs[a]); if(html!=null) e.innerHTML=html; return e; }
+function esc(s){ return String(s).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c];}); }
+function selectEl(name, opts, req, ph){
+  var s = el("select",{name:name,id:name}); if(req) s.required=true;
+  s.appendChild(el("option",{value:""}, ph||"Select"));
+  opts.forEach(function(o){ s.appendChild(el("option",{value:o}, esc(o))); });
+  return s;
+}
+[["sub10",SUB10],["sub12",SUB12]].forEach(function(d){
+  var dl = el("datalist",{id:d[0]}); d[1].forEach(function(o){ dl.appendChild(el("option",{value:o})); }); document.body.appendChild(dl);
+});
+SECTIONS.forEach(function(sec, si){
+  var card = el("section",{class:"card"});
+  card.appendChild(el("h2",null,"<b>"+(si+1)+"</b> "+esc(sec.title)));
+  if(sec.note) card.appendChild(el("p",{class:"note"},esc(sec.note)));
+  var grid = el("div",{class:"grid"});
+  sec.fields.forEach(function(f){
+    if(f.o){ for(var k in f.o) f[k]=f.o[k]; }
+    var star = f.req ? '<span class="req" aria-hidden="true">*</span>' : "";
+    var box;
+    if(f.checks){
+      box = el("fieldset",{class:"f"+(f.wide?" wide":"")});
+      box.appendChild(el("legend",null,esc(f.l)));
+      var chips = el("div",{class:"chips"});
+      f.checks.forEach(function(c){ chips.appendChild(el("label",null,'<input type="checkbox" name="'+f.k+'" value="'+esc(c)+'"><span>'+esc(c)+'</span>')); });
+      box.appendChild(chips);
+    } else {
+      box = el("div",{class:"f"+(f.wide?" wide":"")});
+      box.appendChild(el("label",{class:"l","for":f.k},esc(f.l)+star));
+      var input;
+      if(f.opts){ input = selectEl(f.k, f.opts, f.req); }
+      else {
+        input = el("input",{type:f.type||"text",name:f.k,id:f.k,autocomplete:"off"});
+        if(f.req) input.required=true;
+        if(f.pat) input.setAttribute("pattern",f.pat);
+        if(f.max) input.setAttribute("maxlength",f.max);
+        if(f.min!=null){ input.setAttribute("min",f.min); input.setAttribute("step","1"); }
+        if(f.mode||f.type==="number") input.setAttribute("inputmode","numeric");
+        if(f.dl) input.setAttribute("list",f.dl);
+        if(f.type==="date") input.setAttribute("max","2100-12-31");
+        if(f.upper) input.style.textTransform="uppercase";
+      }
+      if(f.titleSel){
+        var row = el("div",{class:"row"});
+        var t = selectEl("title",["MS","MRS","MR"],true,"Title"); t.setAttribute("aria-label","Title");
+        row.appendChild(t); row.appendChild(input); box.appendChild(row);
+      } else box.appendChild(input);
+      box.appendChild(el("div",{class:"msg"},esc(f.msg||"This field is required.")));
+    }
+    if(f.hint) box.appendChild(el("div",{class:"hint"},esc(f.hint)));
+    grid.appendChild(box);
+  });
+  card.appendChild(grid);
+  form.appendChild(card);
+});
+var act = el("div",{class:"actions"});
+act.appendChild(el("button",{type:"reset"},"Clear form"));
+act.appendChild(el("button",{type:"submit",class:"primary"},"Submit"));
+form.appendChild(act);
+
+/* ---------- progress + validation ---------- */
+var required = [].slice.call(form.querySelectorAll("[required]"));
+function updateBar(){
+  var done = required.filter(function(i){ return i.value.trim() && i.checkValidity(); }).length;
+  document.getElementById("barFill").style.width = (required.length ? done/required.length*100 : 0)+"%";
+  document.getElementById("barText").textContent = done+" of "+required.length+" required";
+}
+function check(input){
+  var box = input.closest(".f"); if(!box) return true;
+  var ok = [].slice.call(box.querySelectorAll("input,select")).every(function(i){ return i.checkValidity(); });
+  box.classList.toggle("err", !ok); return ok;
+}
+form.addEventListener("input", function(e){ if(e.target.closest(".f.err")) check(e.target); updateBar(); });
+form.addEventListener("change", updateBar);
+form.addEventListener("focusout", function(e){ if(e.target.matches("input:not([type=checkbox]),select") && e.target.value) check(e.target); });
+form.addEventListener("reset", function(){
+  setTimeout(function(){ form.querySelectorAll(".err").forEach(function(b){ b.classList.remove("err"); }); alertTop(""); updateBar(); },0);
+});
+function alertTop(t){ var a=document.getElementById("topAlert"); a.textContent=t; a.classList.toggle("show",!!t); }
+
+/* ---------- collect + summary ---------- */
+function collect(){
+  var data = {};
+  SECTIONS.forEach(function(sec){ sec.fields.forEach(function(f){
+    var v;
+    if(f.checks) v = [].slice.call(form.querySelectorAll('input[name="'+f.k+'"]:checked')).map(function(i){return i.value;}).join(", ");
+    else { v = form.elements[f.k].value.trim(); if(f.upper) v = v.toUpperCase(); }
+    if(f.type==="date" && v){ var p=v.split("-"); v=p[2]+"/"+p[1]+"/"+p[0]; }
+    if(f.titleSel) data["Title"] = form.elements.title.value;
+    data[(sec.title.indexOf("Secondary")>-1 ? sec.title.replace(" Education","")+": " : "")+f.l] = v;
+  }); });
+  return data;
+}
+function showSummary(data){
+  var html = '<table class="sum">', i = 0, keys = Object.keys(data);
+  SECTIONS.forEach(function(sec){
+    html += '<tr><th colspan="2">'+esc(sec.title)+'</th></tr>';
+    var n = sec.fields.length + (sec.fields.some(function(f){return f.titleSel;})?1:0);
+    for(var j=0;j<n;j++,i++){ var k=keys[i]; html += "<tr><td>"+esc(k.replace(/^.*?: /,""))+"</td><td>"+(data[k]?esc(data[k]):"&mdash;")+"</td></tr>"; }
+  });
+  document.getElementById("sumBody").innerHTML = html+"</table>";
+  document.getElementById("sumNote").textContent = "Please check every entry. Use Edit details to correct anything.";
+  form.style.display="none"; document.getElementById("progress").style.display="none";
+  document.getElementById("summary").style.display="block";
+  window.scrollTo(0,0);
+}
+function sendAlert(cls, t){ var a=document.getElementById("sendAlert"); a.className="alert show "+cls; a.textContent=t; }
+
+form.addEventListener("submit", function(e){
+  e.preventDefault();
+  var bad = [].slice.call(form.querySelectorAll("input:not([type=checkbox]),select")).filter(function(i){ return !check(i); });
+  if(bad.length){
+    alertTop("Please correct the "+bad.length+" highlighted field"+(bad.length>1?"s":"")+" before submitting.");
+    bad[0].scrollIntoView({block:"center"}); bad[0].focus({preventScroll:true}); return;
+  }
+  alertTop("");
+  var data = collect();
+  showSummary(data);
+  if(!SHEET_URL){
+    sendAlert("info","Now press “Print / Save as PDF” and hand over or send the PDF to the school office.");
+    return;
+  }
+  sendAlert("info","Sending your details to the school…");
+  fetch(SHEET_URL,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify(data)})
+    .then(function(r){ return r.json(); })
+    .then(function(j){ if(j && j.ok) sendAlert("ok","Submitted successfully. You may also save a PDF copy for your records."); else throw new Error("rejected"); })
+    .catch(function(){ sendAlert("bad","Could not send to the school sheet. Please press “Print / Save as PDF” and give the PDF to the school office."); });
+});
+document.getElementById("editBtn").onclick = function(){
+  document.getElementById("summary").style.display="none"; form.style.display=""; document.getElementById("progress").style.display=""; window.scrollTo(0,0);
+};
+document.getElementById("printBtn").onclick = function(){ window.print(); };
+updateBar();
+</script>
+</body>
+</html>
